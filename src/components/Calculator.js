@@ -46,8 +46,47 @@ const Calculator = () => {
     }
   };
 
+  const handleKeyPress = e => {
+    console.log(e.key);
+    const value = e.key;
+    switch (value) {
+      case '=':
+      case 'Enter': {
+        if (question !== '') {
+          let ans = '';
+          try {
+            // eslint-disable-next-line no-eval
+            ans = eval(question);
+          } catch (err) {
+            setAnswer('Math Error');
+          }
+          if (ans === undefined) {
+            setAnswer('Math Error');
+          } else {
+            setAnswer(ans);
+            setQuestion('');
+          }
+        }
+        break;
+      }
+      case 'Clear': {
+        setQuestion('');
+        setAnswer('');
+        break;
+      }
+      case 'Delete': {
+        let str = question;
+        str = str.substr(0, str.length - 1);
+        setQuestion(str);
+        break;
+      }
+      default: {
+        setQuestion(question + value);
+      }
+    }
+  };
   return (
-    <div>
+    <div onKeyPress={handleKeyPress}>
       <div className="frame">
         <CalculatorTitle title="abhi's Calculator" />
         <div className="mainCalc">
